@@ -38,6 +38,25 @@ export function ProductView() {
 
     };
 
+    function DeleteProductById(id) {
+    fetch(`/api/products/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Det Funkade Igen");
+            fetchProducts();
+                fetchInactiveProducts();
+        } else {
+            console.error("Delete misslyckades", response.statusText);
+        }
+    })
+    .catch(error => console.error("Nätverksfel:", error));
+}
+
     function fetchProducts() {
         fetch(`/api/products/company/?active=true`)
             .then(response => response.json())
@@ -101,6 +120,7 @@ export function ProductView() {
             <div className="card-buttons">
                 <NavLink to={"/product/" + product.id + "/edit"}><button>Edit</button></NavLink>
                 <button className="small-button" onClick={() => BlockProductById(product.id, product.active)}>block</button>
+                <button className="small-button" onClick={() => DeleteProductById(product.id)}>delete</button>
             </div>
         </li>
     }
@@ -145,6 +165,24 @@ export function SupportView() {
             })
             .catch(error => console.error("Error updating user:", error));
     }
+    function DeleteSupportById(id) {
+    fetch(`/api/users/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Det Funkade Igen");
+            fetchUsers();
+                    fetchInactiveUsers();
+        } else {
+            console.error("Delete misslyckades", response.statusText);
+        }
+    })
+    .catch(error => console.error("Nätverksfel:", error));
+}
 
     useEffect(
         fetchUsers
@@ -186,6 +224,7 @@ export function SupportView() {
             <div className="card-buttons">
                 <NavLink to={`/agents/${support.id}/edit`}><button>Edit</button></NavLink>
                 <button className="small-button" onClick={() => BlockSupportById(support.id, support.active)}>block</button>
+                <button className="small-button" onClick={() => DeleteSupportById(support.id)}>delete</button>
             </div>
         </li>
     }
@@ -599,6 +638,7 @@ export function AdminCategoryView() {
             .catch(error => console.error("Ånej inte ett error!", error));
     }
 
+
     function AddCategory(e) {
         e.preventDefault();
         const form = e.target;
@@ -635,6 +675,25 @@ export function AdminCategoryView() {
         }
         )
     }
+    function DeleteCategoryById(id) {
+    fetch(`/api/categories/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Det Funkade Igen");
+            fetchActiveCategories();
+                fetchInactiveCategories();
+        } else {
+            console.error("Delete misslyckades", response.statusText);
+        }
+    })
+    .catch(error => console.error("Nätverksfel:", error));
+}
+    
 
     useEffect(fetchActiveCategories, []);
     useEffect(fetchInactiveCategories, []);
@@ -671,7 +730,7 @@ export function AdminCategoryView() {
     </main>
 
     function CategoryCard2(category) {
-        return <li className="li-categories" key={category.id}>Name: {category.category_name}<button className="category-button" onClick={(e) => HandleCategoryStatus(e, category)}>Inactivate</button></li>
+        return <li className="li-categories" key={category.id}>Name: {category.category_name}<button className="category-button" onClick={(e) => HandleCategoryStatus(e, category)}>Inactivate</button><button className="category-button" onClick={() => DeleteCategoryById(category.id)}>Delete</button></li>
     }
 
     function InactiveCategoriesCard(category) {

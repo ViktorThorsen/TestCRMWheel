@@ -57,6 +57,7 @@ public class CompanyRoutes
 
         try
         {
+
             using var cmd = db.CreateCommand(
                 "SELECT id, category_name FROM ticket_categories WHERE company = $1 AND active IS NOT false ORDER BY id ASC"
             );
@@ -220,29 +221,41 @@ public class CompanyRoutes
 
     }
 
-    public static async Task<Results<Ok<string>, BadRequest<string>>> DeleteCompany(int id, NpgsqlDataSource db)
+    public static async Task<Results<Ok<string>, BadRequest<string>>> DeleteCompany(int id, NpgsqlDataSource db, HttpContext ctx)
     {
-        try
+        if (ctx.Session.IsAvailable &&
+            ctx.Session.GetInt32("role") is int roleInt &&
+            Enum.IsDefined(typeof(UserRole), roleInt) &&
+            (UserRole)roleInt == UserRole.super_admin)
         {
-            using var cmd = db.CreateCommand("DELETE FROM companies WHERE id = $1");
-            cmd.Parameters.AddWithValue(id);
-
-            int rowsAffected = await cmd.ExecuteNonQueryAsync();
-
-            if (rowsAffected > 0)
+            try
             {
-                return TypedResults.Ok("Företaget har tagits bort permanent.");
+
+                using var cmd = db.CreateCommand("DELETE FROM companies WHERE id = $1");
+                cmd.Parameters.AddWithValue(id);
+
+                int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+                if (rowsAffected > 0)
+                {
+                    return TypedResults.Ok("Företaget har tagits bort permanent.");
+                }
+                else
+                {
+                    return TypedResults.BadRequest("Inget företag hittades att ta bort.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return TypedResults.BadRequest("Inget företag hittades att ta bort.");
+                return TypedResults.BadRequest($"Något gick fel: {ex.Message}");
             }
         }
-        catch (Exception ex)
+        else
         {
-            return TypedResults.BadRequest($"Något gick fel: {ex.Message}");
+            return TypedResults.BadRequest("Åtkomst nekad: endast super_admin kan ta bort företag.");
         }
     }
+
 
 
 }

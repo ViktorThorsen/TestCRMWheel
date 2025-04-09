@@ -222,20 +222,31 @@ public class ProductRoutes()
         }
     }
 
-    public static async Task<Results<Ok<string>, BadRequest<string>>> DeleteProduct(int id, NpgsqlDataSource db, HttpContext ctx)
+    public static async Task<Results<Ok<string>, BadRequest<string>>> DeleteProduct(int ProductId, NpgsqlDataSource db, HttpContext ctx)
     {
         var companyId = ctx.Session.GetInt32("company");
+        var role = ctx.Session.GetInt32("role");
 
-        if (!companyId.HasValue)
+        if (!ctx.Session.IsAvailable || !companyId.HasValue || role is not int roleInt || (UserRole)roleInt != UserRole.Admin)
         {
-            return TypedResults.BadRequest("Session saknas eller ogiltig.");
+            return TypedResults.BadRequest("Du har inte rätt behörighet eller session saknas.");
         }
 
         try
         {
-            using var cmd = db.CreateCommand("DELETE FROM products WHERE id = $1 AND company = $2");
-            cmd.Parameters.AddWithValue(id);
-            cmd.Parameters.AddWithValue(companyId.Value);
+            // Kontrollera att produkten tillhör rätt företag
+            using var checkCmd = db.CreateCommand("SELECT company FROM products WHERE id = $1");
+            checkCmd.Parameters.AddWithValue(ProductId);
+            var productCompany = await checkCmd.ExecuteScalarAsync();
+
+            if (productCompany == null || (int)productCompany != companyId.Value)
+            {
+                return TypedResults.BadRequest("Produkten tillhör inte ditt företag eller finns inte.");
+            }
+
+            // Radera produkten
+            using var cmd = db.CreateCommand("DELETE FROM products WHERE id = $1");
+            cmd.Parameters.AddWithValue(ProductId);
 
             int rowsAffected = await cmd.ExecuteNonQueryAsync();
 

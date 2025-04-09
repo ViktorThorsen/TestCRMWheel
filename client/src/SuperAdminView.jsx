@@ -44,6 +44,24 @@ export function SuperAdminCompanyView() {
                 if (response.ok) { console.log("Det Funkade Igen"), GetCompanies(), GetInactiveCompanies() }
             })
     }
+    function DeleteCompanyById(id) {
+    fetch(`/api/companies/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Det Funkade Igen");
+            GetCompanies();
+            GetInactiveCompanies();
+        } else {
+            console.error("Delete misslyckades", response.statusText);
+        }
+    })
+    .catch(error => console.error("Nätverksfel:", error));
+}
 
     useEffect(GetCompanies, []);
     useEffect(GetInactiveCompanies,[]);
@@ -58,7 +76,7 @@ export function SuperAdminCompanyView() {
             <section className="statusBox">
                     <button onClick={() => setShowInactive(prevState => !prevState)} className="toggle-inactive-btn">
                         {showInactive ? "Hide Inactive Companies" : "Show Inactive Companies"}
-                    </button>
+                </button>
                     {showInactive && (
                         <ul className="inactive-list">
                             {InactiveCompanies.map(InactiveCompanyCard)}
@@ -80,6 +98,7 @@ export function SuperAdminCompanyView() {
             <div className="card-buttons">
                 <NavLink to={"/companies/" + company.id + "/edit"}><button>Edit</button></NavLink>
                 <button className="small-button" onClick={() => BlockCompanyById(company.id, company.active)}>block</button>
+                <button className="small-button" onClick={() => DeleteCompanyById(company.id)}>delete</button>
             </div>
         </li>
     }
@@ -285,6 +304,24 @@ export function SuperAdminAdminView() {
             })
     }
 
+    function DeleteAdminById(id) {
+    fetch(`/api/users/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Det Funkade Igen");
+            GetAdmins(), GetInactiveAdmins()
+        } else {
+            console.error("Delete misslyckades", response.statusText);
+        }
+    })
+    .catch(error => console.error("Nätverksfel:", error));
+}
+
     useEffect(GetAdmins, []);
     useEffect(GetInactiveAdmins, []);
 
@@ -323,6 +360,7 @@ export function SuperAdminAdminView() {
             <div className="card-buttons">
                 <NavLink to={"/users/" + admin.id + "/edit"}><button>Edit</button></NavLink>
                 <button className="small-button" onClick={() => BlockAdminById(admin.id, admin.active)}>block</button>
+                <button className="small-button" onClick={() => DeleteAdminById(admin.id)}>delete</button>
             </div></li>
     }
     function InactiveAdminCard(admin) {

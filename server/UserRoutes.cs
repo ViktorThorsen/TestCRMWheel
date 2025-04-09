@@ -594,35 +594,56 @@ public class UserRoutes
 
     public static async Task<Results<Ok<string>, BadRequest<string>>> DeleteUser(int id, NpgsqlDataSource db, HttpContext ctx)
     {
-        if (ctx.Session.IsAvailable &&
-            ctx.Session.GetInt32("role") is int roleInt &&
-            Enum.IsDefined(typeof(UserRole), roleInt) &&
-            (UserRole)roleInt != UserRole.Service_agent)
-        {
-            try
-            {
-                using var cmd = db.CreateCommand("DELETE FROM users WHERE id = $1");
-                cmd.Parameters.AddWithValue(id);
-
-                int rowsAffected = await cmd.ExecuteNonQueryAsync();
-
-                if (rowsAffected > 0)
-                {
-                    return TypedResults.Ok("Användaren har tagits bort permanent.");
-                }
-                else
-                {
-                    return TypedResults.BadRequest("Ingen användare hittades att ta bort.");
-                }
-            }
-            catch (Exception ex)
-            {
-                return TypedResults.BadRequest($"Fel vid borttagning: {ex.Message}");
-            }
-        }
-        else
+        if (!(ctx.Session.IsAvailable &&
+              ctx.Session.GetInt32("role") is int currentUserRoleInt &&
+              Enum.IsDefined(typeof(UserRole), currentUserRoleInt)))
         {
             return TypedResults.BadRequest("Otillräckliga rättigheter eller ingen aktiv session.");
+        }
+
+        var currentUserRole = (UserRole)currentUserRoleInt;
+
+        try
+        {
+            // Kolla vilken roll användaren som ska tas bort har
+            using var getRoleCmd = db.CreateCommand("SELECT role FROM users WHERE id = $1");
+            getRoleCmd.Parameters.AddWithValue(id);
+            var roleResult = await getRoleCmd.ExecuteScalarAsync();
+
+            if (roleResult == null)
+            {
+                return TypedResults.BadRequest("Ingen användare hittades att ta bort.");
+            }
+
+            var targetRole = (UserRole)(int)roleResult;
+
+            // Behörighetskontroll
+            if (currentUserRole == UserRole.super_admin && targetRole != UserRole.Admin)
+            {
+                return TypedResults.BadRequest("Superadmin får endast ta bort admins.");
+            }
+            if (currentUserRole == UserRole.Admin && targetRole != UserRole.Service_agent)
+            {
+                return TypedResults.BadRequest("Admin får endast ta bort serviceagenter.");
+            }
+
+            // Kör borttagning
+            using var deleteCmd = db.CreateCommand("DELETE FROM users WHERE id = $1");
+            deleteCmd.Parameters.AddWithValue(id);
+            int rowsAffected = await deleteCmd.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
+            {
+                return TypedResults.Ok("Användaren har tagits bort permanent.");
+            }
+            else
+            {
+                return TypedResults.BadRequest("Ingen användare hittades att ta bort.");
+            }
+        }
+        catch (Exception ex)
+        {
+            return TypedResults.BadRequest($"Fel vid borttagning: {ex.Message}");
         }
     }
 

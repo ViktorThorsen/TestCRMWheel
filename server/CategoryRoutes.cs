@@ -153,13 +153,27 @@ public class CategoryRoutes
 
     public static async Task<Results<Ok<string>, BadRequest<string>>> DeleteCategory(NpgsqlDataSource db, HttpContext ctx, int id)
     {
-        if (ctx.Session.IsAvailable && ctx.Session.GetInt32("role") is int roleInt && Enum.IsDefined(typeof(UserRole), roleInt) && (UserRole)roleInt == UserRole.Admin)
+        if (ctx.Session.IsAvailable &&
+            ctx.Session.GetInt32("role") is int roleInt &&
+            Enum.IsDefined(typeof(UserRole), roleInt) &&
+            (UserRole)roleInt == UserRole.Admin &&
+            ctx.Session.GetInt32("company") is int sessionCompanyId)
         {
             try
             {
+                // Hämta företag som kategorin tillhör
+                using var checkCmd = db.CreateCommand("SELECT company FROM ticket_categories WHERE id = $1");
+                checkCmd.Parameters.AddWithValue(id);
+                var companyResult = await checkCmd.ExecuteScalarAsync();
+
+                if (companyResult == null || (int)companyResult != sessionCompanyId)
+                {
+                    return TypedResults.BadRequest("Kategorin tillhör inte ditt företag eller finns inte.");
+                }
+
+                // Ta bort kategorin
                 using var cmd = db.CreateCommand("DELETE FROM ticket_categories WHERE id = $1");
                 cmd.Parameters.AddWithValue(id);
-
                 int rowsAffected = await cmd.ExecuteNonQueryAsync();
 
                 if (rowsAffected > 0)

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var dataSourceBuilder = new NpgsqlDataSourceBuilder("Host=localhost;Database=swine_sync;Username=postgres;Password=portedinme;Port=5432");
+var dataSourceBuilder = new NpgsqlDataSourceBuilder("Host=localhost;Database=swine_sync;Username=postgres;Password=admin132;Port=5432");
 dataSourceBuilder.MapEnum<UserRole>();
 var db = dataSourceBuilder.Build();
 
@@ -24,6 +24,7 @@ app.UseSession();
 app.MapGet("/api/companies", CompanyRoutes.GetCompanies);
 app.MapGet("/api/companies/{id}", CompanyRoutes.GetCompany);
 app.MapPut("/api/companies/{id}", CompanyRoutes.EditCompany);
+app.MapDelete("/api/companies/{id}", CompanyRoutes.DeleteCompany);
 app.MapPut("/api/companies/block/{id}/{active}", CompanyRoutes.BlockCompany);
 app.MapPost("/api/companies", CompanyRoutes.AddCompany);
 
@@ -32,6 +33,7 @@ app.MapGet("/api/roles/users/{role}", UserRoutes.GetUsers);
 app.MapGet("/api/users/company/{role}", UserRoutes.GetUsersFromCompany);
 app.MapGet("/api/users/{id}", UserRoutes.GetUser);
 app.MapPut("/api/users/{id}", UserRoutes.EditAdmin);
+app.MapDelete("/api/users/{id}", UserRoutes.DeleteUser);
 app.MapPut("/api/users/block/{id}/{active}", UserRoutes.BlockUser); // url beskriver en plats inte en uppdatering i sig.  vid uppdatering ska ligga i bodyn. 
 app.MapPut("/api/users/password/", UserRoutes.ChangePassword);
 app.MapPut("/api/users/agent/{id}", UserRoutes.EditAgent);
@@ -43,12 +45,14 @@ app.MapPost("/api/login", LoginRoutes.LoginByRole);
 app.MapDelete("/api/login", LoginRoutes.LogOut);
 
 app.MapGet("/api/categories/{id}", CategoryRoutes.GetCategoriesByUserId);
+app.MapDelete("/api/categories/{id}", CategoryRoutes.DeleteCategory);
 app.MapGet("/api/categories/company/", CategoryRoutes.GetCategoriesByCompany);
 app.MapPut("/api/categories/status/", CategoryRoutes.ChangeStatus);
 app.MapPost("/api/categories", CategoryRoutes.AddCategory);
 
 app.MapGet("/api/products/company/", ProductRoutes.GetProducts);
 app.MapGet("/api/products/{ProductId}", ProductRoutes.GetProduct);
+app.MapDelete("/api/products/{ProductId}", ProductRoutes.DeleteProduct);
 app.MapGet("/api/products/customer-ticket/", ProductRoutes.GetProductsForTicket);
 app.MapPut("/api/products", ProductRoutes.EditProduct);
 app.MapPut("/api/products/block/{id}/{active}", ProductRoutes.BlockProductById);
