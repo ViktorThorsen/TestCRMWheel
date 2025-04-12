@@ -151,6 +151,13 @@ public class ProductRoutes()
 
     public static async Task<IResult> AddProduct(PostProductDTO product, HttpContext ctx, NpgsqlDataSource db)
     {
+        var companySessionId = ctx.Session.GetInt32("company");
+        var role = ctx.Session.GetInt32("role");
+
+        if (!ctx.Session.IsAvailable || !companySessionId.HasValue || role is not int roleInt || (UserRole)roleInt != UserRole.Admin)
+        {
+            return TypedResults.BadRequest("Du har inte rätt behörighet eller session saknas.");
+        }
         try
         {
             var companyId_nullable = ctx.Session.GetInt32("company");
@@ -173,14 +180,15 @@ public class ProductRoutes()
 
             if (result != null)
             {
-                return TypedResults.Ok("Det funkade! Du la till en product!");
+                int newProductId = Convert.ToInt32(result);
+                return TypedResults.Ok(new { id = newProductId, message = "Det funkade!" });
             }
             else
             {
                 return TypedResults.BadRequest("Ajsing bajsing, det funkade ej att lägga till produkten");
             }
         }
-        catch (PostgresException ex) when (ex.SqlState == "23505") // Hanterar unikhetsfel
+        catch (PostgresException ex) when (ex.SqlState == "23505")
         {
             return TypedResults.BadRequest("produkten är redan registrerad!");
         }

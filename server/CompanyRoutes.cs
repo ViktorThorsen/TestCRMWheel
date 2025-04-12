@@ -148,7 +148,8 @@ public class CompanyRoutes
 
             if (result != null)
             {
-                return TypedResults.Ok("Det funkade! Du la till ett företag!");
+                int newCompanyId = Convert.ToInt32(result);
+                return TypedResults.Ok(new { id = newCompanyId, message = "Det funkade!" });
             }
             else
             {
@@ -165,60 +166,79 @@ public class CompanyRoutes
         }
     }
 
-    public static async Task<IResult> EditCompany(int id, PostCompanyDTO company, NpgsqlDataSource db)
+    public static async Task<IResult> EditCompany(int id, PostCompanyDTO company, NpgsqlDataSource db, HttpContext ctx)
     {
-        try
+        if (ctx.Session.IsAvailable &&
+            ctx.Session.GetInt32("role") is int roleInt &&
+            Enum.IsDefined(typeof(UserRole), roleInt) &&
+            (UserRole)roleInt == UserRole.super_admin)
         {
-            using var cmd = db.CreateCommand(
-                "UPDATE companies SET name = $1, email = $2, phone = $3, description = $4, domain = $5, active = $6 WHERE id = $7");
-
-            cmd.Parameters.AddWithValue(company.Name);
-            cmd.Parameters.AddWithValue(company.Email);
-            cmd.Parameters.AddWithValue(company.Phone);
-            cmd.Parameters.AddWithValue(company.Description);
-            cmd.Parameters.AddWithValue(company.Domain);
-            cmd.Parameters.AddWithValue(true);
-            cmd.Parameters.AddWithValue(id);
-
-            int rowsAffected = await cmd.ExecuteNonQueryAsync();
-
-            if (rowsAffected == 0)
+            try
             {
-                return TypedResults.NotFound("Företaget hittades inte");
-            }
+                using var cmd = db.CreateCommand(
+                    "UPDATE companies SET name = $1, email = $2, phone = $3, description = $4, domain = $5, active = $6 WHERE id = $7");
 
-            return TypedResults.Ok("Företaget updaterades!");
+                cmd.Parameters.AddWithValue(company.Name);
+                cmd.Parameters.AddWithValue(company.Email);
+                cmd.Parameters.AddWithValue(company.Phone);
+                cmd.Parameters.AddWithValue(company.Description);
+                cmd.Parameters.AddWithValue(company.Domain);
+                cmd.Parameters.AddWithValue(true);
+                cmd.Parameters.AddWithValue(id);
+
+                int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+                if (rowsAffected == 0)
+                {
+                    return TypedResults.NotFound("Företaget hittades inte");
+                }
+
+                return TypedResults.Ok("Företaget updaterades!");
+            }
+            catch (Exception ex)
+            {
+                return TypedResults.BadRequest($"Error: {ex.Message}");
+            }
         }
-        catch (Exception ex)
+        else
         {
-            return TypedResults.BadRequest($"Error: {ex.Message}");
+            return TypedResults.BadRequest("Åtkomst nekad: endast super_admin kan ta bort företag.");
         }
     }
 
-    public static async Task<Results<Ok<string>, BadRequest<string>>> BlockCompany(int id, bool active, NpgsqlDataSource db)
+    public static async Task<Results<Ok<string>, BadRequest<string>>> BlockCompany(int id, bool active, NpgsqlDataSource db, HttpContext ctx)
     {
-        try
+        if (ctx.Session.IsAvailable &&
+            ctx.Session.GetInt32("role") is int roleInt &&
+            Enum.IsDefined(typeof(UserRole), roleInt) &&
+            (UserRole)roleInt == UserRole.super_admin)
         {
-            using var cmd = db.CreateCommand("UPDATE companies SET active = $1 WHERE id = $2");
-            cmd.Parameters.AddWithValue(active ? false : true);
-            cmd.Parameters.AddWithValue(id);
-
-            int rowsAffected = await cmd.ExecuteNonQueryAsync();
-
-            if (rowsAffected > 0)
+            try
             {
-                return TypedResults.Ok("Det funkade!");
+                using var cmd = db.CreateCommand("UPDATE companies SET active = $1 WHERE id = $2");
+                cmd.Parameters.AddWithValue(active ? false : true);
+                cmd.Parameters.AddWithValue(id);
+
+                int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+                if (rowsAffected > 0)
+                {
+                    return TypedResults.Ok("Det funkade!");
+                }
+                else
+                {
+                    return TypedResults.BadRequest("Ajsing bajsing, det funkade ej");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return TypedResults.BadRequest("Ajsing bajsing, det funkade ej");
+                return TypedResults.BadRequest($"(Detta är Catch) Det funkade inte: {ex.Message}");
             }
         }
-        catch (Exception ex)
+        else
         {
-            return TypedResults.BadRequest($"(Detta är Catch) Det funkade inte: {ex.Message}");
+            return TypedResults.BadRequest("Åtkomst nekad: endast super_admin kan ta bort företag.");
         }
-
     }
 
     public static async Task<Results<Ok<string>, BadRequest<string>>> DeleteCompany(int id, NpgsqlDataSource db, HttpContext ctx)

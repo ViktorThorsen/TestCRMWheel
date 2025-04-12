@@ -207,8 +207,13 @@ public class UserRoutes
                     string message = "Hi " + user.Name + "\nyour account has now been created for " + user.Email +
                     "\nwith the temporary password: " + password + "\nBest regards Swine Sync";
                     MailService.SendMail(user.Email, subject, message);
+                    int newUserId = Convert.ToInt32(result);
 
-                    return TypedResults.Ok("Det funkade! Du la till en admin!");
+                    return TypedResults.Ok(new
+                    {
+                        id = newUserId,
+                        message = "Det funkade! Du la till en admin!"
+                    });
                 }
                 else
                 {
@@ -302,7 +307,12 @@ public class UserRoutes
                     string message = "Hi " + agent.Name + "\nyour account has now been created for " + agent.Email +
                     "\nwith the temporary password: " + password + "\nBest regards Swine Sync";
                     MailService.SendMail(agent.Email, subject, message);
-                    return TypedResults.Ok("category done");
+                    await transaction.CommitAsync();
+                    return TypedResults.Ok(new
+                    {
+                        message = "Done",
+                        agentId = id
+                    });
                 }
                 else
                 {

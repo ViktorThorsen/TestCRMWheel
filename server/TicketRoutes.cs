@@ -99,12 +99,14 @@ public class TicketRoutes
     }
 
 
-    public static async Task<Results<Ok<string>, BadRequest<string>>> AssignTicket(NpgsqlDataSource db, HttpContext ctx)
+    public static async Task<IResult> AssignTicket(NpgsqlDataSource db, HttpContext ctx)
     {
-
         try
         {
-            if (ctx.Session.IsAvailable && ctx.Session.GetInt32("role") is int roleInt && Enum.IsDefined(typeof(UserRole), roleInt) && (UserRole)roleInt == UserRole.Service_agent)
+            if (ctx.Session.IsAvailable &&
+                ctx.Session.GetInt32("role") is int roleInt &&
+                Enum.IsDefined(typeof(UserRole), roleInt) &&
+                (UserRole)roleInt == UserRole.Service_agent)
             {
                 int id;
                 var agent = ctx.Session.GetInt32("id");
@@ -116,45 +118,56 @@ public class TicketRoutes
                 await using var conn = await db.OpenConnectionAsync();
                 await using var transaction = await conn.BeginTransactionAsync();
 
-                using var cmdRandomSelect =  new NpgsqlCommand(@"select id from tickets  join customer_agentsxticket_category as caXtc 
-              on tickets.ticket_category = caXtc.ticket_category
-              where caXtc.customer_agent=$1 and tickets.customer_agent is null 
-              order by random() 
-              limit 1;",conn,transaction);
+                using var cmdRandomSelect = new NpgsqlCommand(@"
+                SELECT t.id
+FROM tickets t
+JOIN ticket_categories c ON t.ticket_category = c.id
+JOIN customer_agentsxticket_category caXtc ON caXtc.ticket_category = c.id
+JOIN users u ON caXtc.customer_agent = u.id
+WHERE caXtc.customer_agent = $1
+  AND t.customer_agent IS NULL
+  AND c.company = u.company
+ORDER BY random()
+LIMIT 1;", conn, transaction);
 
                 cmdRandomSelect.Parameters.AddWithValue(agent);
                 var reader = await cmdRandomSelect.ExecuteReaderAsync();
+
                 if (await reader.ReadAsync())
                 {
                     id = reader.GetInt32(0);
                 }
                 else
                 {
-                    transaction.Commit();
-                    return TypedResults.BadRequest("Failed to select a ticket");
+                    await transaction.CommitAsync();
+                    return TypedResults.BadRequest("No available tickets to assign.");
                 }
 
+                await reader.DisposeAsync(); // Stäng läsaren innan nästa kommando
 
-                using var cmd =  new NpgsqlCommand("UPDATE tickets SET customer_agent = $2, status = 2 WHERE id = $1",conn,transaction);
+                using var cmd = new NpgsqlCommand(
+                    "UPDATE tickets SET customer_agent = $2, status = 2 WHERE id = $1",
+                    conn, transaction);
 
                 cmd.Parameters.AddWithValue(id);
                 cmd.Parameters.AddWithValue(agent);
 
                 int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
                 if (rowsAffected > 0)
                 {
                     await transaction.CommitAsync();
-                    return TypedResults.Ok("Ticket assigned successfully.");
+                    return TypedResults.Ok(new { id = id, message = "Ticket assigned successfully." });
                 }
                 else
                 {
                     await transaction.RollbackAsync();
-                    return TypedResults.BadRequest("Ticket assignment failed. Ticket ID or customer agent might be invalid.");
+                    return TypedResults.BadRequest("Ticket assignment failed. Ticket ID or agent may be invalid.");
                 }
             }
             else
             {
-                return TypedResults.BadRequest($"Missing Session");
+                return TypedResults.BadRequest("Missing or invalid session");
             }
         }
         catch (Exception ex)
@@ -162,6 +175,8 @@ public class TicketRoutes
             return TypedResults.BadRequest($"Error: {ex.Message}");
         }
     }
+
+
 
 
 
@@ -300,11 +315,13 @@ public class TicketRoutes
     public static async Task<Results<Ok<string>, BadRequest<string>>> ChangeStatus(string slug, statusDTO status, NpgsqlDataSource db)
     {
         try
-        {   int? idNullable = await MessageRoutes.GetIdBySlug(db,slug); 
-            if(!idNullable.HasValue){
+        {
+            int? idNullable = await MessageRoutes.GetIdBySlug(db, slug);
+            if (!idNullable.HasValue)
+            {
                 return TypedResults.BadRequest("failed to get ticket id from slug");
             }
-            int id = idNullable.Value; 
+            int id = idNullable.Value;
             using var cmd = db.CreateCommand(
                 @"UPDATE tickets SET status = $1 WHERE id = $2"
             );
@@ -333,11 +350,12 @@ public class TicketRoutes
             try
             {
 
-                int? idNullable = await MessageRoutes.GetIdBySlug(db,slug); 
-                if(!idNullable.HasValue){
+                int? idNullable = await MessageRoutes.GetIdBySlug(db, slug);
+                if (!idNullable.HasValue)
+                {
                     return TypedResults.BadRequest("failed to get ticket id from slug");
                 }
-                int id = idNullable.Value; 
+                int id = idNullable.Value;
                 using var cmd = db.CreateCommand("UPDATE tickets SET rating=$2 WHERE id=$1 AND status=3 AND rating is null");
 
                 cmd.Parameters.AddWithValue(id);
@@ -366,7 +384,7 @@ public class TicketRoutes
         }
 
     }
-//    public record Ticket(int id, int status, string description, int product_id, int ticket_category, string slug);
+    //    public record Ticket(int id, int status, string description, int product_id, int ticket_category, string slug);
     public static async Task<Results<Ok<List<Ticket>>, BadRequest<string>>> GetClosedTicketsByUserId(NpgsqlDataSource db, HttpContext ctx)
     {
 

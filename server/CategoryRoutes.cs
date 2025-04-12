@@ -81,14 +81,17 @@ public class CategoryRoutes
     }
 
     public record CategoryDTO(string CategoryName);
-    public static async Task<Results<Ok<string>, BadRequest<string>>> AddCategory(NpgsqlDataSource db, HttpContext ctx, CategoryDTO categoryNameDTO)
+
+    public static async Task<IResult> AddCategory(NpgsqlDataSource db, HttpContext ctx, CategoryDTO categoryNameDTO)
     {
-        if (ctx.Session.IsAvailable && ctx.Session.GetInt32("role") is int roleInt && Enum.IsDefined(typeof(UserRole), roleInt) && (UserRole)roleInt == UserRole.Admin)
+        if (ctx.Session.IsAvailable &&
+            ctx.Session.GetInt32("role") is int roleInt &&
+            Enum.IsDefined(typeof(UserRole), roleInt) &&
+            (UserRole)roleInt == UserRole.Admin)
         {
             try
             {
-
-                using var cmd = db.CreateCommand("INSERT INTO ticket_categories (category_name, company) VALUES ($1, $2)");
+                using var cmd = db.CreateCommand("INSERT INTO ticket_categories (category_name, company) VALUES ($1, $2) RETURNING id");
 
                 int? companyId = ctx.Session.GetInt32("company");
 
@@ -100,24 +103,32 @@ public class CategoryRoutes
                 cmd.Parameters.AddWithValue(categoryNameDTO.CategoryName);
                 cmd.Parameters.AddWithValue(companyId.Value);
 
+                var result = await cmd.ExecuteScalarAsync();
 
-                int rowsAffected = await cmd.ExecuteNonQueryAsync();
-                if (rowsAffected > 0)
+                if (result != null)
                 {
-                    return TypedResults.Ok("Allt gick bra");
+                    int newCategoryId = Convert.ToInt32(result);
+                    return TypedResults.Ok(new { id = newCategoryId, message = "Kategori tillagd!" });
                 }
                 else
                 {
-                    return TypedResults.BadRequest("Inget gick bra");
+                    return TypedResults.BadRequest("Något gick fel vid kategoritilldelning");
                 }
+            }
+            catch (PostgresException ex) when (ex.SqlState == "23505")
+            {
+                return TypedResults.BadRequest("Kategorin finns redan!");
             }
             catch (Exception ex)
             {
-                return TypedResults.BadRequest(ex.Message);
+                return TypedResults.BadRequest($"Ett fel inträffade: {ex.Message}");
             }
         }
+
         return TypedResults.BadRequest("No session available");
     }
+
+
 
     public record StatusDTO(int id, bool active);
     public static async Task<Results<Ok<string>, BadRequest<string>>> ChangeStatus(NpgsqlDataSource db, HttpContext ctx, StatusDTO status)

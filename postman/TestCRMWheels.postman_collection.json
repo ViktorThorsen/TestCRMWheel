@@ -1,0 +1,1757 @@
+{
+	"info": {
+		"_postman_id": "fdcd1d03-e5e0-4295-ab08-c4032b510522",
+		"name": "TestCRMWheels",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43555422",
+		"_collection_link": "https://viktor-6544461.postman.co/workspace/Viktor's-Workspace~bb0aa7aa-6dad-4862-8045-1d577490deb5/collection/43555422-fdcd1d03-e5e0-4295-ab08-c4032b510522?action=share&source=collection_link&creator=43555422"
+	},
+	"item": [
+		{
+			"name": "AuthorizationTests",
+			"item": [
+				{
+					"name": "SuperAdminTest",
+					"item": [
+						{
+							"name": "StartAuthTestAsSuperAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"super_gris@mail.com\",\r\n    \"password\": \"kung\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddCompany",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Stored company ID\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"company_id\", jsonData.id);\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"PigTestCompany\",\r\n    \"Email\": \"pigtest@gmail.com\",\r\n    \"Phone\": \"073672829\",\r\n    \"Description\": \"Sell Is the only way\",\r\n    \"Domain\": \"http://pigtests.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/companies",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EditCompany",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"PigSolutionsCompany\",\r\n    \"Email\": \"pigtest@gmail.com\",\r\n    \"Phone\": \"073672829\",\r\n    \"Description\": \"Smell Is the only way\",\r\n    \"Domain\": \"http://pigtests.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/companies/{{company_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"companies",
+										"{{company_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Stored newAdmin ID\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"newAdmin_id\", jsonData.id);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Svinian\",\r\n    \"email\": \"svinian@gmail.com\",\r\n    \"company\": {{company_id}},\r\n    \"role\": \"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EditAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Svinian\",\r\n    \"email\": \"sviniansson@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users/{{newAdmin_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"{{newAdmin_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/users/{{newAdmin_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"{{newAdmin_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteCompany",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/companies/{{company_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"companies",
+										"{{company_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AssignTicket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {\r",
+											"    // ❌ Markera som fail, även om vi fortsätter\r",
+											"    pm.test(\"🚨 FEL: Admin kunde assigna en ticket (ska INTE gå!)\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200); // Detta kommer faila testet\r",
+											"    });\r",
+											"} else {\r",
+											"    // ✅ Allt som förväntat – admin nekades\r",
+											"    pm.test(\"✅ Admin nekades korrekt\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200); // eller vad din API returnerar\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/tickets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"tickets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddProduct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {\r",
+											"    pm.test(\"🚨 FEL: SuperAdmin kunde lägga till Produkt (ska INTE gå!)\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
+											"    });\r",
+											"\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"newProduct_id\", jsonData.id);\r",
+											"    pm.collectionVariables.set(\"should_cleanup_product\", \"false\");\r",
+											"} else {\r",
+											"    pm.test(\"✅ SuperAdmin nekades korrekt\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
+											"        pm.collectionVariables.set(\"should_cleanup_product\", \"false\");\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"GrisKlöv\",\r\n    \"Description\": \"Ger tur i oturen\",\r\n    \"Price\": \"10\",\r\n    \"Category\": \"Charms\",\r\n    \"Company\": \"3\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddAgent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {\r",
+											"    pm.test(\"🚨 FEL: SuperAdmin kunde lägga till en Agent (ska INTE gå!)\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
+											"    });\r",
+											"\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"newAgent_id\", jsonData.id);\r",
+											"    pm.collectionVariables.set(\"should_cleanup_agent\", \"true\");\r",
+											"} else {\r",
+											"    pm.test(\"✅ SuperAdmin nekades korrekt\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
+											"        pm.collectionVariables.set(\"should_cleanup_agent\", \"false\");\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Anna Svensson\",\r\n  \"email\": \"anna.svensson@example.com\",\r\n  \"selectedCategories\": [1, 3],\r\n  \"role\": \"service_agent\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users/agent",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"agent"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LogOut",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"if (\r",
+											"  pm.collectionVariables.get(\"should_cleanup_product\") === \"false\" &&\r",
+											"  pm.collectionVariables.get(\"should_cleanup_agent\") === \"false\"\r",
+											") {\r",
+											"    pm.execution.setNextRequest(\"StartAuthTestAsAdmin\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LoginAsAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"admin_id\", 7);\r",
+											"pm.collectionVariables.set(\"company_id\", 3);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const cleanupProduct = pm.collectionVariables.get(\"should_cleanup_product\");\r",
+											"const cleanupAgent = pm.collectionVariables.get(\"should_cleanup_agent\");\r",
+											"\r",
+											"if (cleanupProduct === \"false\" && cleanupAgent === \"false\") {\r",
+											"    pm.execution.setNextRequest(null); // ❌ Ingen cleanup behövs\r",
+											"} else if (cleanupProduct === \"false\" && cleanupAgent === \"true\") {\r",
+											"    pm.execution.setNextRequest(\"DeleteAgent\"); // ✅ Hoppa över DeleteCompany\r",
+											"} else {\r",
+											"    // Default – fortsätt till DeleteCompany\r",
+											"    pm.execution.setNextRequest(\"DeleteProduct\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"grune@grymt.se\",\r\n    \"password\": \"hejhej\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteProduct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const cleanupAgent = pm.collectionVariables.get(\"should_cleanup_agent\");\r",
+											"\r",
+											"if (cleanupAgent !== \"true\") {\r",
+											"    console.log(\"🛑 Skipping DeleteAgent – cleanup not required\");\r",
+											"    pm.execution.setNextRequest(\"LogOut\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/products/{{newProduct_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"products",
+										"{{newProduct_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteAgent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users/{{newAgent_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"{{newAgent_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LogOut",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"if (\r",
+											"  pm.collectionVariables.get(\"should_cleanup_product\") === \"false\" &&\r",
+											"  pm.collectionVariables.get(\"should_cleanup_agent\") === \"false\"\r",
+											") {\r",
+											"    pm.execution.setNextRequest(null);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "AdminTests",
+					"item": [
+						{
+							"name": "StartAuthTestAsAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"admin_id\", 7);\r",
+											"pm.collectionVariables.set(\"company_id\", 3);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"grune@grymt.se\",\r\n    \"password\": \"hejhej\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddAgent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Stored newAgent ID\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"newAgent_id\", jsonData.agentId);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Anna Svensson\",\r\n  \"email\": \"anna.svensson@example.com\",\r\n  \"selectedCategories\": [1, 3],\r\n  \"role\": \"service_agent\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users/agent",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"agent"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EditAgent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Anna S. Svensson\",\r\n  \"email\": \"anna.svensson.new@example.com\",\r\n  \"categories\": {\r\n    \"1\": true,\r\n    \"3\": false,\r\n    \"5\": true\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users/agent/{{newAgent_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"agent",
+										"{{newAgent_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteAgent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users/{{newAgent_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"{{newAgent_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddProduct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Stored newProduct ID\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"newProduct_id\", jsonData.id);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"GrisKlöv\",\r\n    \"Description\": \"Ger tur i oturen\",\r\n    \"Price\": \"10\",\r\n    \"Category\": \"Charms\",\r\n    \"Company\": \"{{company_id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EditProduct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Ekologisk Havremjölk\",\r\n  \"description\": \"1 liter havremjölk utan tillsatt socker\",\r\n  \"price\": 25,\r\n  \"category\": \"Dryck\",\r\n  \"company\": {{company_id}},\r\n  \"id\": {{newProduct_id}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteProduct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/products/{{newProduct_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"products",
+										"{{newProduct_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddCategory",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Stored newCategory ID\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"newCategory_id\", jsonData.id);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"CategoryName\": \"Svinerier\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteCategory",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/categories/{{newCategory_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"categories",
+										"{{newCategory_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AssignTicket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {\r",
+											"    // ❌ Markera som fail, även om vi fortsätter\r",
+											"    pm.test(\"🚨 FEL: Admin kunde assigna en ticket (ska INTE gå!)\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200); // Detta kommer faila testet\r",
+											"    });\r",
+											"} else {\r",
+											"    // ✅ Allt som förväntat – admin nekades\r",
+											"    pm.test(\"✅ Admin nekades korrekt\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200); // eller vad din API returnerar\r",
+											"    });\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/tickets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"tickets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {\r",
+											"    // ❌ Markera som fail, även om vi fortsätter\r",
+											"    pm.test(\"🚨 FEL: Admin kunde lägga till en admin (ska INTE gå!)\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200); // Detta kommer faila testet\r",
+											"    });\r",
+											"\r",
+											"    // ✅ Men spara info för att vi ska kunna ta bort det ändå\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"admin_id\", jsonData.id);\r",
+											"    pm.collectionVariables.set(\"should_cleanup_admin\", \"true\");\r",
+											"} else {\r",
+											"    // ✅ Allt som förväntat – admin nekades\r",
+											"    pm.test(\"✅ Admin nekades korrekt\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200); // eller vad din API returnerar\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"should_cleanup_admin\", \"false\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Svinian\",\r\n    \"email\": \"svinian@gmail.com\",\r\n    \"company\": {{company_id}},\r\n    \"role\": \"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddCompany",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {\r",
+											"    pm.test(\"🚨 FEL: Admin kunde lägga till företag (ska INTE gå!)\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
+											"    });\r",
+											"\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"company_id\", jsonData.id);\r",
+											"    pm.collectionVariables.set(\"should_cleanup_company\", \"true\");\r",
+											"} else {\r",
+											"    pm.test(\"✅ Admin nekades korrekt\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"should_cleanup_company\", \"false\");\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"PigTestCompany\",\r\n    \"Email\": \"pigtest@gmail.com\",\r\n    \"Phone\": \"073672829\",\r\n    \"Description\": \"Sell Is the only way\",\r\n    \"Domain\": \"http://pigtests.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/companies",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LogOut",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"if (\r",
+											"  pm.collectionVariables.get(\"should_cleanup_company\") === \"false\" &&\r",
+											"  pm.collectionVariables.get(\"should_cleanup_admin\") === \"false\"\r",
+											") {\r",
+											"    pm.execution.setNextRequest(null);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LoginAsSuperAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const cleanupCompany = pm.collectionVariables.get(\"should_cleanup_company\");\r",
+											"const cleanupAdmin = pm.collectionVariables.get(\"should_cleanup_admin\");\r",
+											"\r",
+											"if (cleanupCompany === \"false\" && cleanupAdmin === \"false\") {\r",
+											"    pm.execution.setNextRequest(null); // ❌ Ingen cleanup behövs\r",
+											"} else if (cleanupCompany === \"false\" && cleanupAdmin === \"true\") {\r",
+											"    pm.execution.setNextRequest(\"DeleteAdmin\"); // ✅ Hoppa över DeleteCompany\r",
+											"} else {\r",
+											"    // Default – fortsätt till DeleteCompany\r",
+											"    pm.execution.setNextRequest(\"DeleteCompany\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"super_gris@mail.com\",\r\n    \"password\": \"kung\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteCompany",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const cleanupAdmin = pm.collectionVariables.get(\"should_cleanup_admin\");\r",
+											"\r",
+											"if (cleanupAdmin !== \"true\") {\r",
+											"    console.log(\"🛑 Skipping DeleteAdmin – cleanup not required\");\r",
+											"    pm.execution.setNextRequest(\"LogOut\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/companies/{{company_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"companies",
+										"{{company_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/users/{{newAdmin_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"{{newAdmin_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LogOut",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "AgentTests",
+					"item": [
+						{
+							"name": "StartAuthTestAsAgent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"tryne@hotmail.com\",\r\n    \"password\": \"asd123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AssignTicket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Stored newAssignedTicket ID\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"newAssignedTicket_id\", jsonData.id);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/tickets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"tickets"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CustomerTest",
+					"item": [
+						{
+							"name": "LogOut",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Createticket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 42,\r\n    \"categoryId\": 5,\r\n    \"message\": \"Hej jag får utslag i trynet av denna gyttjan\",\r\n    \"email\": \"trynvald@mail.com\",\r\n    \"description\": \"Mitt svullna tryne\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/tickets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"tickets"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "company_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "newAdmin_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "admin_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "newAgent_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "newProduct_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "should_cleanup_company",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "should_cleanup_admin",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "should_cleanup_product",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "should_cleanup_agent",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "agent_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "newCategory_id",
+			"value": ""
+		},
+		{
+			"key": "newAssignedTicket_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
