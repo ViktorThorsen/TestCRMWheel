@@ -34,10 +34,10 @@ jobs:
         run: dotnet build --no-restore
 
       - name: Run xUnit tests in server.Tests
-        run: dotnet test server.Tests --no-build --verbosity normal
+        run: dotnet test Server.Tests --no-build --verbosity normal
 
       - name: Run Playwright tests in client.Tests
-        run: dotnet test client.Tests --no-build --verbosity normal
+        run: dotnet test Client.Tests --no-build --verbosity normal
 
       - name: Start API-server
         run: cd server && nohup dotnet run &
