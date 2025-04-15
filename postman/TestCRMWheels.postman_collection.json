@@ -14,7 +14,7 @@
 					"name": "SuperAdminTest",
 					"item": [
 						{
-							"name": "StartAuthTestAsSuperAdmin",
+							"name": "SStartAuthTestAsSuperAdmin",
 							"event": [
 								{
 									"listen": "test",
@@ -42,14 +42,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/api/login",
-									"protocol": "http",
+									"raw": "{{connection}}api/login",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"login"
 									]
 								}
@@ -57,7 +54,7 @@
 							"response": []
 						},
 						{
-							"name": "AddCompany",
+							"name": "SAddCompany",
 							"event": [
 								{
 									"listen": "test",
@@ -91,14 +88,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/api/companies",
-									"protocol": "http",
+									"raw": "{{connection}}api/companies",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"companies"
 									]
 								}
@@ -106,7 +100,7 @@
 							"response": []
 						},
 						{
-							"name": "EditCompany",
+							"name": "SEditCompany",
 							"event": [
 								{
 									"listen": "test",
@@ -134,14 +128,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/api/companies/{{company_id}}",
-									"protocol": "http",
+									"raw": "{{connection}}api/companies/{{company_id}}",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"companies",
 										"{{company_id}}"
 									]
@@ -150,7 +141,7 @@
 							"response": []
 						},
 						{
-							"name": "AddAdmin",
+							"name": "SAddAdmin",
 							"event": [
 								{
 									"listen": "test",
@@ -183,14 +174,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/api/users",
-									"protocol": "http",
+									"raw": "{{connection}}api/users",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"users"
 									]
 								}
@@ -198,7 +186,7 @@
 							"response": []
 						},
 						{
-							"name": "EditAdmin",
+							"name": "SEditAdmin",
 							"event": [
 								{
 									"listen": "test",
@@ -226,14 +214,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/api/users/{{newAdmin_id}}",
-									"protocol": "http",
+									"raw": "{{connection}}api/users/{{newAdmin_id}}",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"users",
 										"{{newAdmin_id}}"
 									]
@@ -242,7 +227,7 @@
 							"response": []
 						},
 						{
-							"name": "DeleteAdmin",
+							"name": "SDeleteAdmin",
 							"event": [
 								{
 									"listen": "test",
@@ -261,14 +246,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5000/api/users/{{newAdmin_id}}",
-									"protocol": "http",
+									"raw": "{{connection}}api/users/{{newAdmin_id}}",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"users",
 										"{{newAdmin_id}}"
 									]
@@ -277,7 +259,7 @@
 							"response": []
 						},
 						{
-							"name": "DeleteCompany",
+							"name": "SDeleteCompany",
 							"event": [
 								{
 									"listen": "test",
@@ -296,14 +278,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5000/api/companies/{{company_id}}",
-									"protocol": "http",
+									"raw": "{{connection}}api/companies/{{company_id}}",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"companies",
 										"{{company_id}}"
 									]
@@ -312,7 +291,7 @@
 							"response": []
 						},
 						{
-							"name": "AssignTicket",
+							"name": "SAssignTicket",
 							"event": [
 								{
 									"listen": "test",
@@ -339,14 +318,11 @@
 								"method": "PUT",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5000/api/tickets",
-									"protocol": "http",
+									"raw": "{{connection}}api/tickets",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"tickets"
 									]
 								}
@@ -354,7 +330,7 @@
 							"response": []
 						},
 						{
-							"name": "AddProduct",
+							"name": "SAddProduct",
 							"event": [
 								{
 									"listen": "test",
@@ -393,14 +369,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/api/products",
-									"protocol": "http",
+									"raw": "{{connection}}api/products",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"products"
 									]
 								}
@@ -408,7 +381,7 @@
 							"response": []
 						},
 						{
-							"name": "AddAgent",
+							"name": "SAddAgent",
 							"event": [
 								{
 									"listen": "test",
@@ -447,14 +420,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/api/users/agent",
-									"protocol": "http",
+									"raw": "{{connection}}api/users/agent",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"users",
 										"agent"
 									]
@@ -463,7 +433,7 @@
 							"response": []
 						},
 						{
-							"name": "LogOut",
+							"name": "SLogOut",
 							"event": [
 								{
 									"listen": "test",
@@ -485,7 +455,7 @@
 											"  pm.collectionVariables.get(\"should_cleanup_product\") === \"false\" &&\r",
 											"  pm.collectionVariables.get(\"should_cleanup_agent\") === \"false\"\r",
 											") {\r",
-											"    pm.execution.setNextRequest(\"StartAuthTestAsAdmin\");\r",
+											"    pm.execution.setNextRequest(\"AStartAuthTestAsAdmin\");\r",
 											"}"
 										],
 										"type": "text/javascript",
@@ -497,14 +467,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5000/api/login",
-									"protocol": "http",
+									"raw": "{{connection}}api/login",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"login"
 									]
 								}
@@ -512,7 +479,7 @@
 							"response": []
 						},
 						{
-							"name": "LoginAsAdmin",
+							"name": "SLoginAsAdmin",
 							"event": [
 								{
 									"listen": "test",
@@ -535,10 +502,10 @@
 											"if (cleanupProduct === \"false\" && cleanupAgent === \"false\") {\r",
 											"    pm.execution.setNextRequest(null); // ❌ Ingen cleanup behövs\r",
 											"} else if (cleanupProduct === \"false\" && cleanupAgent === \"true\") {\r",
-											"    pm.execution.setNextRequest(\"DeleteAgent\"); // ✅ Hoppa över DeleteCompany\r",
+											"    pm.execution.setNextRequest(\"SDeleteAgent\"); // ✅ Hoppa över DeleteCompany\r",
 											"} else {\r",
 											"    // Default – fortsätt till DeleteCompany\r",
-											"    pm.execution.setNextRequest(\"DeleteProduct\");\r",
+											"    pm.execution.setNextRequest(\"SDeleteProduct\");\r",
 											"}"
 										],
 										"type": "text/javascript",
@@ -559,14 +526,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/api/login",
-									"protocol": "http",
+									"raw": "{{connection}}api/login",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"login"
 									]
 								}
@@ -574,7 +538,7 @@
 							"response": []
 						},
 						{
-							"name": "DeleteProduct",
+							"name": "SDeleteProduct",
 							"event": [
 								{
 									"listen": "test",
@@ -608,14 +572,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5000/api/products/{{newProduct_id}}",
-									"protocol": "http",
+									"raw": "{{connection}}api/products/{{newProduct_id}}",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"products",
 										"{{newProduct_id}}"
 									]
@@ -624,7 +585,7 @@
 							"response": []
 						},
 						{
-							"name": "DeleteAgent",
+							"name": "SDeleteAgent",
 							"event": [
 								{
 									"listen": "test",
@@ -652,14 +613,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/api/users/{{newAgent_id}}",
-									"protocol": "http",
+									"raw": "{{connection}}api/users/{{newAgent_id}}",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"users",
 										"{{newAgent_id}}"
 									]
@@ -668,7 +626,7 @@
 							"response": []
 						},
 						{
-							"name": "LogOut",
+							"name": "SLogOut",
 							"event": [
 								{
 									"listen": "test",
@@ -686,12 +644,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"if (\r",
-											"  pm.collectionVariables.get(\"should_cleanup_product\") === \"false\" &&\r",
-											"  pm.collectionVariables.get(\"should_cleanup_agent\") === \"false\"\r",
-											") {\r",
-											"    pm.execution.setNextRequest(null);\r",
-											"}"
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -702,14 +655,11 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5000/api/login",
-									"protocol": "http",
+									"raw": "{{connection}}api/login",
 									"host": [
-										"localhost"
+										"{{connection}}api"
 									],
-									"port": "5000",
 									"path": [
-										"api",
 										"login"
 									]
 								}
@@ -722,7 +672,7 @@
 					"name": "AdminTests",
 					"item": [
 						{
-							"name": "StartAuthTestAsAdmin",
+							"name": "AStartAuthTestAsAdmin",
 							"event": [
 								{
 									"listen": "test",
@@ -764,7 +714,7 @@
 							"response": []
 						},
 						{
-							"name": "AddAgent",
+							"name": "AAddAgent",
 							"event": [
 								{
 									"listen": "test",
@@ -813,7 +763,7 @@
 							"response": []
 						},
 						{
-							"name": "EditAgent",
+							"name": "AEditAgent",
 							"event": [
 								{
 									"listen": "test",
@@ -858,7 +808,7 @@
 							"response": []
 						},
 						{
-							"name": "DeleteAgent",
+							"name": "ADeleteAgent",
 							"event": [
 								{
 									"listen": "test",
@@ -902,7 +852,7 @@
 							"response": []
 						},
 						{
-							"name": "AddProduct",
+							"name": "AAddProduct",
 							"event": [
 								{
 									"listen": "test",
@@ -950,7 +900,7 @@
 							"response": []
 						},
 						{
-							"name": "EditProduct",
+							"name": "AEditProduct",
 							"event": [
 								{
 									"listen": "test",
@@ -993,7 +943,7 @@
 							"response": []
 						},
 						{
-							"name": "DeleteProduct",
+							"name": "ADeleteProduct",
 							"event": [
 								{
 									"listen": "test",
@@ -1028,7 +978,7 @@
 							"response": []
 						},
 						{
-							"name": "AddCategory",
+							"name": "AAddCategory",
 							"event": [
 								{
 									"listen": "test",
@@ -1076,7 +1026,7 @@
 							"response": []
 						},
 						{
-							"name": "DeleteCategory",
+							"name": "ADeleteCategory",
 							"event": [
 								{
 									"listen": "test",
@@ -1111,7 +1061,7 @@
 							"response": []
 						},
 						{
-							"name": "AssignTicket",
+							"name": "AAssignTicket",
 							"event": [
 								{
 									"listen": "test",
@@ -1153,7 +1103,7 @@
 							"response": []
 						},
 						{
-							"name": "AddAdmin",
+							"name": "AAddAdmin",
 							"event": [
 								{
 									"listen": "test",
@@ -1211,7 +1161,7 @@
 							"response": []
 						},
 						{
-							"name": "AddCompany",
+							"name": "AAddCompany",
 							"event": [
 								{
 									"listen": "test",
@@ -1267,7 +1217,7 @@
 							"response": []
 						},
 						{
-							"name": "LogOut",
+							"name": "ALogOut",
 							"event": [
 								{
 									"listen": "test",
@@ -1289,7 +1239,7 @@
 											"  pm.collectionVariables.get(\"should_cleanup_company\") === \"false\" &&\r",
 											"  pm.collectionVariables.get(\"should_cleanup_admin\") === \"false\"\r",
 											") {\r",
-											"    pm.execution.setNextRequest(null);\r",
+											"    pm.execution.setNextRequest(\"ALogOutAsSuperAdmin\");\r",
 											"}"
 										],
 										"type": "text/javascript",
@@ -1316,7 +1266,7 @@
 							"response": []
 						},
 						{
-							"name": "LoginAsSuperAdmin",
+							"name": "ALoginAsSuperAdmin",
 							"event": [
 								{
 									"listen": "test",
@@ -1340,10 +1290,10 @@
 											"if (cleanupCompany === \"false\" && cleanupAdmin === \"false\") {\r",
 											"    pm.execution.setNextRequest(null); // ❌ Ingen cleanup behövs\r",
 											"} else if (cleanupCompany === \"false\" && cleanupAdmin === \"true\") {\r",
-											"    pm.execution.setNextRequest(\"DeleteAdmin\"); // ✅ Hoppa över DeleteCompany\r",
+											"    pm.execution.setNextRequest(\"ADeleteAdmin\"); // ✅ Hoppa över DeleteCompany\r",
 											"} else {\r",
 											"    // Default – fortsätt till DeleteCompany\r",
-											"    pm.execution.setNextRequest(\"DeleteCompany\");\r",
+											"    pm.execution.setNextRequest(\"ADeleteCompany\");\r",
 											"}"
 										],
 										"type": "text/javascript",
@@ -1379,7 +1329,7 @@
 							"response": []
 						},
 						{
-							"name": "DeleteCompany",
+							"name": "ADeleteCompany",
 							"event": [
 								{
 									"listen": "test",
@@ -1401,7 +1351,7 @@
 											"\r",
 											"if (cleanupAdmin !== \"true\") {\r",
 											"    console.log(\"🛑 Skipping DeleteAdmin – cleanup not required\");\r",
-											"    pm.execution.setNextRequest(\"LogOut\");\r",
+											"    pm.execution.setNextRequest(\"ALogOutAsSuperAdmin\");\r",
 											"}"
 										],
 										"type": "text/javascript",
@@ -1429,7 +1379,7 @@
 							"response": []
 						},
 						{
-							"name": "DeleteAdmin",
+							"name": "ADeleteAdmin",
 							"event": [
 								{
 									"listen": "test",
@@ -1464,7 +1414,7 @@
 							"response": []
 						},
 						{
-							"name": "LogOut",
+							"name": "ALogOutAsSuperAdmin",
 							"event": [
 								{
 									"listen": "test",
@@ -1503,7 +1453,7 @@
 					"name": "AgentTests",
 					"item": [
 						{
-							"name": "StartAuthTestAsAgent",
+							"name": "AGStartAuthTestAsAgent",
 							"event": [
 								{
 									"listen": "test",
@@ -1546,7 +1496,7 @@
 							"response": []
 						},
 						{
-							"name": "AssignTicket",
+							"name": "AGAssignTicket",
 							"event": [
 								{
 									"listen": "test",
@@ -1590,7 +1540,7 @@
 					"name": "CustomerTest",
 					"item": [
 						{
-							"name": "LogOut",
+							"name": "CLogOut",
 							"event": [
 								{
 									"listen": "test",
@@ -1665,6 +1615,462 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "CAddCompany",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {\r",
+											"    pm.test(\"🚨 FEL: Kund kunde lägga till företag (ska INTE gå!)\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
+											"    });\r",
+											"\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"company_id\", jsonData.id);\r",
+											"    pm.collectionVariables.set(\"should_cleanup_company\", \"true\");\r",
+											"} else {\r",
+											"    pm.test(\"✅ Admin nekades korrekt\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"should_cleanup_company\", \"false\");\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"PigTestCompany\",\r\n    \"Email\": \"pigtest@gmail.com\",\r\n    \"Phone\": \"073672829\",\r\n    \"Description\": \"Sell Is the only way\",\r\n    \"Domain\": \"http://pigtests.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/companies",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CAddProduct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {\r",
+											"    pm.test(\"🚨 FEL: En kund kunde lägga till en produkt (ska INTE gå!)\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
+											"    });\r",
+											"\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"NewProduct_id\", jsonData.id);\r",
+											"    pm.collectionVariables.set(\"should_cleanup_product\", \"true\");\r",
+											"} else {\r",
+											"    pm.test(\"✅ Kunden nekades korrekt\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"should_cleanup_product\", \"false\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"GrisKlöv\",\r\n    \"Description\": \"Ger tur i oturen\",\r\n    \"Price\": \"10\",\r\n    \"Category\": \"Charms\",\r\n    \"Company\": \"{{company_id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CAddAgent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {\r",
+											"    pm.test(\"🚨 FEL: En kund kunde lägga till en Agent (ska INTE gå!)\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
+											"    });\r",
+											"\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"NewAgent_id\", jsonData.id);\r",
+											"    pm.collectionVariables.set(\"should_cleanup_agent\", \"true\");\r",
+											"} else {\r",
+											"    pm.test(\"✅ Kunden nekades korrekt\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"should_cleanup_agent\", \"false\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Anna Svensson\",\r\n  \"email\": \"anna.svensson@example.com\",\r\n  \"selectedCategories\": [1, 3],\r\n  \"role\": \"service_agent\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users/agent",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"agent"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CAddAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {\r",
+											"    // ❌ Markera som fail, även om vi fortsätter\r",
+											"    pm.test(\"🚨 FEL: Admin kunde lägga till en admin (ska INTE gå!)\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200); // Detta kommer faila testet\r",
+											"    });\r",
+											"\r",
+											"    // ✅ Men spara info för att vi ska kunna ta bort det ändå\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.collectionVariables.set(\"admin_id\", jsonData.id);\r",
+											"    pm.collectionVariables.set(\"should_cleanup_admin\", \"true\");\r",
+											"} else {\r",
+											"    // ✅ Allt som förväntat – admin nekades\r",
+											"    pm.test(\"✅ Admin nekades korrekt\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200); // eller vad din API returnerar\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"should_cleanup_admin\", \"false\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Svinian\",\r\n    \"email\": \"svinian@gmail.com\",\r\n    \"company\": {{company_id}},\r\n    \"role\": \"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CLogOut",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"if (\r",
+											"  pm.collectionVariables.get(\"should_cleanup_company\") === \"false\" &&\r",
+											"  pm.collectionVariables.get(\"should_cleanup_admin\") === \"false\"\r",
+											") {\r",
+											"    pm.execution.setNextRequest(\"CLogOutAsSuper\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CLoginAsSuper",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const cleanupCompany = pm.collectionVariables.get(\"should_cleanup_company\");\r",
+											"const cleanupAdmin = pm.collectionVariables.get(\"should_cleanup_admin\");\r",
+											"\r",
+											"if (cleanupCompany === \"false\" && cleanupAdmin === \"false\") {\r",
+											"    pm.execution.setNextRequest(null); // ❌ Ingen cleanup behövs\r",
+											"} else if (cleanupCompany === \"false\" && cleanupAdmin === \"true\") {\r",
+											"    pm.execution.setNextRequest(\"CDeleteAdmin\"); // ✅ Hoppa över DeleteCompany\r",
+											"} else {\r",
+											"    // Default – fortsätt till DeleteCompany\r",
+											"    pm.execution.setNextRequest(\"CDeleteCompany\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"super_gris@mail.com\",\r\n    \"password\": \"kung\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CDeleteCompany",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const cleanupAdmin = pm.collectionVariables.get(\"should_cleanup_admin\");\r",
+											"\r",
+											"if (cleanupAdmin !== \"true\") {\r",
+											"    console.log(\"🛑 Skipping DeleteAdmin – cleanup not required\");\r",
+											"    pm.execution.setNextRequest(\"CLogOutAsSuper\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/companies/{{company_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"companies",
+										"{{company_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CDeleteAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/users/{{newAdmin_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"{{newAdmin_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CLogOutAsSuper",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Statuskoden är 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -1721,22 +2127,22 @@
 		},
 		{
 			"key": "should_cleanup_company",
-			"value": "",
+			"value": "false",
 			"type": "string"
 		},
 		{
 			"key": "should_cleanup_admin",
-			"value": "",
+			"value": "false",
 			"type": "string"
 		},
 		{
 			"key": "should_cleanup_product",
-			"value": "",
+			"value": "false",
 			"type": "string"
 		},
 		{
 			"key": "should_cleanup_agent",
-			"value": "",
+			"value": "false",
 			"type": "string"
 		},
 		{
@@ -1751,6 +2157,11 @@
 		{
 			"key": "newAssignedTicket_id",
 			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "connection",
+			"value": "http://localhost:5000/",
 			"type": "string"
 		}
 	]
