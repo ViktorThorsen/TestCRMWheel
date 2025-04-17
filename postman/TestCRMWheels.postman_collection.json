@@ -299,12 +299,12 @@
 										"exec": [
 											"if (pm.response.code === 200) {\r",
 											"    // ❌ Markera som fail, även om vi fortsätter\r",
-											"    pm.test(\"🚨 FEL: Admin kunde assigna en ticket (ska INTE gå!)\", function () {\r",
+											"    pm.test(\"❌ Fail: SuperAdmin kunde Assigna en Ticket vilket INTE ska gå och bör åtgärdas innan nästa PUSH.\", function () {\r",
 											"        pm.expect(pm.response.code).to.not.eql(200); // Detta kommer faila testet\r",
 											"    });\r",
 											"} else {\r",
 											"    // ✅ Allt som förväntat – admin nekades\r",
-											"    pm.test(\"✅ Admin nekades korrekt\", function () {\r",
+											"    pm.test(\"✅ SuperAdmin nekades korrekt\", function () {\r",
 											"        pm.expect(pm.response.code).to.not.eql(200); // eller vad din API returnerar\r",
 											"    });\r",
 											"}"
@@ -337,7 +337,7 @@
 									"script": {
 										"exec": [
 											"if (pm.response.code === 200) {\r",
-											"    pm.test(\"🚨 FEL: SuperAdmin kunde lägga till Produkt (ska INTE gå!)\", function () {\r",
+											"    pm.test(\"❌ Fail: SuperAdmin kunde lägga till en produkt vilket INTE ska gå och bör åtgärdas innan nästa PUSH.\", function () {\r",
 											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"\r",
@@ -388,7 +388,7 @@
 									"script": {
 										"exec": [
 											"if (pm.response.code === 200) {\r",
-											"    pm.test(\"🚨 FEL: SuperAdmin kunde lägga till en Agent (ska INTE gå!)\", function () {\r",
+											"    pm.test(\"❌ Fail: SuperAdmin kunde lägga till en Agent vilket INTE ska gå och bör åtgärdas innan nästa PUSH.\", function () {\r",
 											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"\r",
@@ -500,11 +500,10 @@
 											"const cleanupAgent = pm.collectionVariables.get(\"should_cleanup_agent\");\r",
 											"\r",
 											"if (cleanupProduct === \"false\" && cleanupAgent === \"false\") {\r",
-											"    pm.execution.setNextRequest(null); // ❌ Ingen cleanup behövs\r",
+											"    pm.execution.setNextRequest(\"AStartAuthTestAsAdmin\");\r",
 											"} else if (cleanupProduct === \"false\" && cleanupAgent === \"true\") {\r",
-											"    pm.execution.setNextRequest(\"SDeleteAgent\"); // ✅ Hoppa över DeleteCompany\r",
+											"    pm.execution.setNextRequest(\"SDeleteAgent\");\r",
 											"} else {\r",
-											"    // Default – fortsätt till DeleteCompany\r",
 											"    pm.execution.setNextRequest(\"SDeleteProduct\");\r",
 											"}"
 										],
@@ -1068,14 +1067,12 @@
 									"script": {
 										"exec": [
 											"if (pm.response.code === 200) {\r",
-											"    // ❌ Markera som fail, även om vi fortsätter\r",
-											"    pm.test(\"🚨 FEL: Admin kunde assigna en ticket (ska INTE gå!)\", function () {\r",
-											"        pm.expect(pm.response.code).to.not.eql(200); // Detta kommer faila testet\r",
+											"    pm.test(\"❌ Fail: Admin kunde Assigna en Ticket vilket INTE ska gå och bör åtgärdas innan nästa PUSH.\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"} else {\r",
-											"    // ✅ Allt som förväntat – admin nekades\r",
 											"    pm.test(\"✅ Admin nekades korrekt\", function () {\r",
-											"        pm.expect(pm.response.code).to.not.eql(200); // eller vad din API returnerar\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"}"
 										],
@@ -1110,19 +1107,16 @@
 									"script": {
 										"exec": [
 											"if (pm.response.code === 200) {\r",
-											"    // ❌ Markera som fail, även om vi fortsätter\r",
-											"    pm.test(\"🚨 FEL: Admin kunde lägga till en admin (ska INTE gå!)\", function () {\r",
-											"        pm.expect(pm.response.code).to.not.eql(200); // Detta kommer faila testet\r",
+											"    pm.test(\"❌ Fail: Admin kunde lägga till en Admin vilket INTE ska gå och bör åtgärdas innan nästa PUSH.\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"\r",
-											"    // ✅ Men spara info för att vi ska kunna ta bort det ändå\r",
 											"    const jsonData = pm.response.json();\r",
 											"    pm.collectionVariables.set(\"admin_id\", jsonData.id);\r",
 											"    pm.collectionVariables.set(\"should_cleanup_admin\", \"true\");\r",
 											"} else {\r",
-											"    // ✅ Allt som förväntat – admin nekades\r",
 											"    pm.test(\"✅ Admin nekades korrekt\", function () {\r",
-											"        pm.expect(pm.response.code).to.not.eql(200); // eller vad din API returnerar\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"\r",
 											"    pm.collectionVariables.set(\"should_cleanup_admin\", \"false\");\r",
@@ -1168,7 +1162,7 @@
 									"script": {
 										"exec": [
 											"if (pm.response.code === 200) {\r",
-											"    pm.test(\"🚨 FEL: Admin kunde lägga till företag (ska INTE gå!)\", function () {\r",
+											"    pm.test(\"❌ Fail: Admin kunde lägga till ett företag vilket INTE ska gå och bör åtgärdas innan nästa PUSH.\", function () {\r",
 											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"\r",
@@ -1176,12 +1170,22 @@
 											"    pm.collectionVariables.set(\"company_id\", jsonData.id);\r",
 											"    pm.collectionVariables.set(\"should_cleanup_company\", \"true\");\r",
 											"} else {\r",
-											"    pm.test(\"✅ Admin nekades korrekt\", function () {\r",
+											"    pm.test(\"✅ Korrekt: Admin kunde inte lägga till ett företag\", function () {\r",
 											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"\r",
 											"    pm.collectionVariables.set(\"should_cleanup_company\", \"false\");\r",
 											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
 											""
 										],
 										"type": "text/javascript",
@@ -1288,11 +1292,10 @@
 											"const cleanupAdmin = pm.collectionVariables.get(\"should_cleanup_admin\");\r",
 											"\r",
 											"if (cleanupCompany === \"false\" && cleanupAdmin === \"false\") {\r",
-											"    pm.execution.setNextRequest(null); // ❌ Ingen cleanup behövs\r",
+											"    pm.execution.setNextRequest(\"AGStartAuthTestAsAgent\");\r",
 											"} else if (cleanupCompany === \"false\" && cleanupAdmin === \"true\") {\r",
-											"    pm.execution.setNextRequest(\"ADeleteAdmin\"); // ✅ Hoppa över DeleteCompany\r",
+											"    pm.execution.setNextRequest(\"ADeleteAdmin\");\r",
 											"} else {\r",
-											"    // Default – fortsätt till DeleteCompany\r",
 											"    pm.execution.setNextRequest(\"ADeleteCompany\");\r",
 											"}"
 										],
@@ -1350,7 +1353,7 @@
 											"const cleanupAdmin = pm.collectionVariables.get(\"should_cleanup_admin\");\r",
 											"\r",
 											"if (cleanupAdmin !== \"true\") {\r",
-											"    console.log(\"🛑 Skipping DeleteAdmin – cleanup not required\");\r",
+											"    console.log(\"🛑 Skippar DeleteAdmin – cleanup not required\");\r",
 											"    pm.execution.setNextRequest(\"ALogOutAsSuperAdmin\");\r",
 											"}"
 										],
@@ -1624,7 +1627,7 @@
 									"script": {
 										"exec": [
 											"if (pm.response.code === 200) {\r",
-											"    pm.test(\"🚨 FEL: Kund kunde lägga till företag (ska INTE gå!)\", function () {\r",
+											"    pm.test(\"❌ Fail: Kunden kunde lägga till ett företag vilket INTE ska gå och bör åtgärdas innan nästa PUSH.\", function () {\r",
 											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"\r",
@@ -1680,7 +1683,7 @@
 									"script": {
 										"exec": [
 											"if (pm.response.code === 200) {\r",
-											"    pm.test(\"🚨 FEL: En kund kunde lägga till en produkt (ska INTE gå!)\", function () {\r",
+											"    pm.test(\"❌ Fail: Kunden kunde lägga till en produkt vilket INTE ska gå och bör åtgärdas innan nästa PUSH.\", function () {\r",
 											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"\r",
@@ -1735,7 +1738,7 @@
 									"script": {
 										"exec": [
 											"if (pm.response.code === 200) {\r",
-											"    pm.test(\"🚨 FEL: En kund kunde lägga till en Agent (ska INTE gå!)\", function () {\r",
+											"    pm.test(\"❌ Fail: Kunden kunde lägga till en Agent vilket INTE ska gå och bör åtgärdas innan nästa PUSH.\", function () {\r",
 											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"\r",
@@ -1791,19 +1794,16 @@
 									"script": {
 										"exec": [
 											"if (pm.response.code === 200) {\r",
-											"    // ❌ Markera som fail, även om vi fortsätter\r",
-											"    pm.test(\"🚨 FEL: Admin kunde lägga till en admin (ska INTE gå!)\", function () {\r",
-											"        pm.expect(pm.response.code).to.not.eql(200); // Detta kommer faila testet\r",
+											"    pm.test(\"❌ Fail: Kunden kunde lägga till en Admin vilket INTE ska gå och bör åtgärdas innan nästa PUSH.\", function () {\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"\r",
-											"    // ✅ Men spara info för att vi ska kunna ta bort det ändå\r",
 											"    const jsonData = pm.response.json();\r",
 											"    pm.collectionVariables.set(\"admin_id\", jsonData.id);\r",
 											"    pm.collectionVariables.set(\"should_cleanup_admin\", \"true\");\r",
 											"} else {\r",
-											"    // ✅ Allt som förväntat – admin nekades\r",
 											"    pm.test(\"✅ Admin nekades korrekt\", function () {\r",
-											"        pm.expect(pm.response.code).to.not.eql(200); // eller vad din API returnerar\r",
+											"        pm.expect(pm.response.code).to.not.eql(200);\r",
 											"    });\r",
 											"\r",
 											"    pm.collectionVariables.set(\"should_cleanup_admin\", \"false\");\r",
@@ -1913,11 +1913,10 @@
 											"const cleanupAdmin = pm.collectionVariables.get(\"should_cleanup_admin\");\r",
 											"\r",
 											"if (cleanupCompany === \"false\" && cleanupAdmin === \"false\") {\r",
-											"    pm.execution.setNextRequest(null); // ❌ Ingen cleanup behövs\r",
+											"    pm.execution.setNextRequest(null);\r",
 											"} else if (cleanupCompany === \"false\" && cleanupAdmin === \"true\") {\r",
-											"    pm.execution.setNextRequest(\"CDeleteAdmin\"); // ✅ Hoppa över DeleteCompany\r",
+											"    pm.execution.setNextRequest(\"CDeleteAdmin\");\r",
 											"} else {\r",
-											"    // Default – fortsätt till DeleteCompany\r",
 											"    pm.execution.setNextRequest(\"CDeleteCompany\");\r",
 											"}"
 										],
