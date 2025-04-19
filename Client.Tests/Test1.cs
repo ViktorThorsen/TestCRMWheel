@@ -19,7 +19,7 @@ public class DemoTest : PageTest
         _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
             Headless = false,
-            SlowMo = 1000 // Lägger in en fördröjning så vi kan se vad som händer
+            SlowMo = 1000
         });
         _browserContext = await _browser.NewContextAsync();
         _page = await _browserContext.NewPageAsync();
@@ -132,7 +132,7 @@ public class DemoTest : PageTest
         _page.Dialog += async (sender, dialog) =>
 {
     Console.WriteLine($"Dialog message: {dialog.Message}");
-    await dialog.DismissAsync(); // eller AcceptAsync() om det behövs
+    await dialog.DismissAsync();
 };
         await _page.GotoAsync("http://localhost:5173");
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email.." }).ClickAsync();

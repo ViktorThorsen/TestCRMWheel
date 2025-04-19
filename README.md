@@ -1,5 +1,11 @@
 # README
 
+### Länkar:
+
+- Förstudie (https://docs.google.com/document/d/1RZq-ekhJ-IMhjt_QDtp5p5NeR8AmQ2mAiX7GHX8fTh4/edit?usp=sharing)
+- Resultatrapport (https://docs.google.com/spreadsheets/d/1bHZX7Au-3Vo3kn9zmZQavKl60jI_jMoaHZLabyToRIg/edit?usp=sharing)
+- Slutrapport (https://docs.google.com/document/d/1u6IVc-iU6MKvLDZKopP9_smQQHp-bo597AKlUyUovQM/edit?usp=sharing)
+
 ## Instructions
 
 ### Set-up:
