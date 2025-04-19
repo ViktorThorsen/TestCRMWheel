@@ -19,7 +19,9 @@ builder.Services.AddSession(options => { options.Cookie.IsEssential = true; });
 var app = builder.Build();
 
 app.UseSession();
-
+app.UseDefaultFiles();
+app.UseStaticFiles();
+app.MapFallbackToFile("index.html");
 
 app.MapGet("/api/companies", CompanyRoutes.GetCompanies);
 app.MapGet("/api/companies/{id}", CompanyRoutes.GetCompany);
