@@ -18,7 +18,7 @@ public class DemoTest : PageTest
         _playwright = await Microsoft.Playwright.Playwright.CreateAsync();
         _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
-            Headless = true,
+            Headless = false,
             SlowMo = 1000
         });
         _browserContext = await _browser.NewContextAsync();
@@ -141,9 +141,9 @@ public class DemoTest : PageTest
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Password.." }).FillAsync("hejhej");
         await _page.GetByRole(AriaRole.Button, new() { Name = "login!" }).ClickAsync();
         await _page.GetByRole(AriaRole.Button, new() { Name = "Products" }).ClickAsync();
-        await _page.GetByRole(AriaRole.Listitem).Filter(new() { HasText = "Name:Organic Swine FeedPrice:" }).GetByRole(AriaRole.Button).Nth(1).ClickAsync();
+        await _page.GetByRole(AriaRole.Listitem).Filter(new() { HasText = "Name:Trotter PedicurePrice:" }).GetByRole(AriaRole.Button).Nth(1).ClickAsync();
         await _page.GetByRole(AriaRole.Button, new() { Name = "Show Inactive Products" }).ClickAsync();
-        await _page.GetByRole(AriaRole.Button, new() { Name = "Activate" }).ClickAsync();
+        await _page.GetByRole(AriaRole.Listitem).Filter(new() { HasText = "Trotter PedicureActivate" }).GetByRole(AriaRole.Button).ClickAsync();
         await _page.GetByRole(AriaRole.Button, new() { Name = "Add product" }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Name:" }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Name:" }).FillAsync("Sviniga Äpplen");
@@ -168,7 +168,7 @@ public class DemoTest : PageTest
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email:" }).FillAsync("svinulf@grismail.com");
         await _page.GetByRole(AriaRole.Button, new() { Name = "Save" }).ClickAsync();
         await _page.GetByRole(AriaRole.Button, new() { Name = "⬅️ Back" }).ClickAsync();
-        await _page.ReloadAsync();
+        await _page.GotoAsync("http://localhost:5000/agents");
         await _page.GetByRole(AriaRole.Listitem).Filter(new() { HasText = "Name:SvinulfEmail:svinulf@" }).GetByRole(AriaRole.Button).Nth(2).ClickAsync();
         await _page.GetByRole(AriaRole.Button, new() { Name = "⬅️ Back" }).ClickAsync();
         await _page.GetByRole(AriaRole.Button, new() { Name = "Categories" }).ClickAsync();
