@@ -46,7 +46,6 @@ jobs:
 
   gui_tests:
     runs-on: ubuntu-latest
-    needs: api_tests
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
