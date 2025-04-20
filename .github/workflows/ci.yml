@@ -85,5 +85,5 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /srv/www/halmstad/viktor/TestCRMWheels
+            cd /srv/www/halmstad/viktor/TestCRMWheel
             git pull

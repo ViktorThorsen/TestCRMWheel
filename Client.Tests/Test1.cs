@@ -35,7 +35,7 @@ public class DemoTest : PageTest
     [TestMethod]
     public async Task SuperAdminTest()
     {
-        await _page.GotoAsync("http://localhost:5173/");
+        await _page.GotoAsync("http://localhost:5000/");
 
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email.." }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email.." }).FillAsync("super_gris@mail.com");
@@ -76,7 +76,7 @@ public class DemoTest : PageTest
     [TestMethod]
     public async Task CreateTicketTest()
     {
-        await _page.GotoAsync("http://localhost:5173/tech-solutions");
+        await _page.GotoAsync("http://localhost:5000/tech-solutions");
 
         var iframeLocator = _page.FrameLocator("iframe[title=\"Customer Ticket View\"]");
 
@@ -103,12 +103,12 @@ public class DemoTest : PageTest
     [TestMethod]
     public async Task CustomerChatAndAgentTest()
     {
-        await _page.GotoAsync("http://localhost:5173/customer/84VkrukvUExlwPZI/chat");
+        await _page.GotoAsync("http://localhost:5000/customer/84VkrukvUExlwPZI/chat");
         await _page.GetByRole(AriaRole.Textbox).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox).FillAsync("Trevligt,Trevligt");
         await _page.GetByRole(AriaRole.Button, new() { Name = "Send" }).ClickAsync();
 
-        await _page.GotoAsync("http://localhost:5173");
+        await _page.GotoAsync("http://localhost:5000");
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email.." }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email.." }).FillAsync("tryne@hotmail.com");
         await _page.Keyboard.PressAsync("Tab");
@@ -120,7 +120,7 @@ public class DemoTest : PageTest
         await _page.GetByRole(AriaRole.Textbox).FillAsync("Ja det är en synnerligen grisig produkt!");
         await _page.GetByRole(AriaRole.Button, new() { Name = "Send" }).ClickAsync();
 
-        await _page.GotoAsync("http://localhost:5173/customer/84VkrukvUExlwPZI/chat");
+        await _page.GotoAsync("http://localhost:5000/customer/84VkrukvUExlwPZI/chat");
         await _page.GetByRole(AriaRole.Textbox).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox).FillAsync("Jag menar det!");
         await _page.GetByRole(AriaRole.Button, new() { Name = "Send" }).ClickAsync();
@@ -134,7 +134,7 @@ public class DemoTest : PageTest
     Console.WriteLine($"Dialog message: {dialog.Message}");
     await dialog.DismissAsync();
 };
-        await _page.GotoAsync("http://localhost:5173");
+        await _page.GotoAsync("http://localhost:5000");
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email.." }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email.." }).FillAsync("grune@grymt.se");
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Password.." }).ClickAsync();
