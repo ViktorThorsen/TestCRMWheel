@@ -1,15 +1,14 @@
-name: Run Postman API tests and .NET tests
+name: CI/CD Test
 
 on:
   push:
-    branches: [main]
+    branches: ["main"]
   pull_request:
-    branches: [main]
+    branches: ["main"]
 
 jobs:
-  test:
+  api_tests:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -22,22 +21,16 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: "8.0.x"
+          dotnet-version: 8.0.x
 
       - name: Install Newman
         run: npm install -g newman
 
-      - name: Restore dotnet project
+      - name: Restore dotnet dependencies
         run: dotnet restore
 
       - name: Build dotnet project
-        run: dotnet build --no-restore
-
-      - name: Run xUnit tests in server.Tests
-        run: dotnet test Server.Tests --no-build --verbosity normal
-
-      - name: Run Playwright tests in client.Tests
-        run: dotnet test Client.Tests --no-build --verbosity normal
+        run: dotnet build
 
       - name: Start API-server
         run: cd server && nohup dotnet run &
@@ -48,5 +41,50 @@ jobs:
       - name: Run API tests with Newman
         run: |
           newman run postman/TestCRMWheels.postman_collection.json \
-          --reporters cli \
-          --reporter-json-export newman-report.json
+            --reporters cli \
+            --reporter-json-export newman-report.json
+
+  gui_tests:
+    runs-on: ubuntu-latest
+    needs: api_tests
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dotnet dependencies
+        run: dotnet restore
+
+      - name: Build client tests
+        run: dotnet build Client.Tests
+
+      - name: Ensure Playwright browsers are installed
+        run: cd Client.Tests && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
+
+      - name: Start API-server
+        run: cd server && nohup dotnet run &
+
+      - name: Wait for API to start
+        run: sleep 10
+
+      - name: Run Playwright GUI tests
+        run: dotnet test Client.Tests
+
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy App
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /srv/www/halmstad/viktor
+            git clone https://github.com/ViktorThorsen/TestCRMWheel.git
